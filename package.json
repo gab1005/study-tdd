@@ -1,0 +1,15 @@
+{
+  "name": "rpg-combat-kata",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -w -R min ./test"
+  },
+  "author": "gab1005",
+  "license": "ISC",
+  "description": "Learning TDD with the RPG Combat Kata",
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "mocha": "^10.8.2"
+  }
+}
