@@ -39,7 +39,7 @@ class Character {
 
     const healing = this.#getPower();
 
-    target.#health = Math.min(MAX_HEALTH, target.#health + healing);
+    target.#health = Math.min(this.#maxHealth, target.#health + healing);
   }
 }
 
