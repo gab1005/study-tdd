@@ -1,11 +1,12 @@
 const STARTING_HEALTH = 1000;
 const MAX_HEALTH = 1000;
 const BASE_POWER = 100;
+const STARTING_LEVEL = 1;
 
 class Character {
   #maxHealth = MAX_HEALTH;
   #health = STARTING_HEALTH;
-  #level = 1;
+  #level = STARTING_LEVEL;
 
   get health () {
     return this.#health;
@@ -23,23 +24,32 @@ class Character {
     return true;
   }
 
-  #getPower () {
-    return this.#level * BASE_POWER;
+  #getPower (target) {
+    let modifier = 1;
+    if (this.level - target.level >=5) modifier = 1.5;
+    if (target.level - this.level >= 5) modifier = 0.5;
+    return BASE_POWER * modifier;
   }
 
   attack (target) {
-    const damage = this.#getPower();
+    if (target === this) throw new Error("Cannot attack itself");
+    const damage = this.#getPower(target);
     target.#health = Math.max(0, target.#health - damage);
   }
 
-  healing (target) {
-    if (target.isAlive === false) {
+  heal () {
+    // if (arguments.length) throw new Error("INVALID");
+
+    if (this.isAlive === false) {
       return;
     }
 
-    const healing = this.#getPower();
+    const healingPower = this.#getPower(this);
+    this.#health = Math.min(this.#maxHealth, this.#health + healingPower);
+  }
 
-    target.#health = Math.min(this.#maxHealth, target.#health + healing);
+  levelUp () {
+    this.#level++;
   }
 }
 

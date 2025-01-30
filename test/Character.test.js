@@ -53,30 +53,80 @@ describe("Character", () => {
 
       expect(charB.isAlive).to.be.false;
     });
+
+    it("can not deal damage to itself", () => {
+      const charA = new Character();
+
+      expect(() => charA.attack(charA)).to.throw();
+    });
+
+    it("If the target is 5 or more Levels above the attacker, Damage is reduced by 50%", () => {
+      const charA = new Character();
+      const charB = new Character();
+
+      repeatFunction(() => charA.levelUp(), 6);
+
+      charA.attack(charB);
+
+      expect(charB.health).to.be.equal(850);
+    });
+
+    it("If the target is 5 or more levels below the attacker, Damage is increased by 50%", () => {
+      const charA = new Character();
+      const charB = new Character();
+
+      repeatFunction(() => charB.levelUp(), 6);
+
+      charA.attack(charB);
+
+      expect(charB.health).to.be.equal(950);
+    });
+
   });
 
   describe("A Character can heal a character", () => {
     it("Dead character can not be healed", () =>{
       const charA = new Character();
       const charB = new Character();
-      const charC = new Character();
 
       repeatFunction(() => charA.attack(charB), 10);
 
       if (charB.isAlive === false) {
-        charC.healing(charB);
+        charB.heal();
         expect(charB.health).to.not.be.above(0);
       }
 
     });
 
     it("Healing can not exceed 1000 health", () => {
-      const charA = new Character();
       const charB = new Character();
 
-      repeatFunction(() => charA.healing(charB), 50);
+      repeatFunction(() => charB.heal(), 50);
 
       expect(charB.health).to.be.not.above(1000);
     });
+
+    it("can only heal itself", () => {
+      const charA = new Character();
+      const charB = new Character();
+
+      charA.attack(charB);
+
+      charB.heal();
+
+      expect(charB.health).to.be.equal(1000);
+    });
+  });
+
+  describe("Character can level up", () => {
+    it("level up by 1 one", () => {
+      const char = new Character();
+
+      char.levelUp();
+      expect(char.level).to.be.equal(2);
+
+      char.levelUp();
+      expect(char.level).to.be.equal(3);
+    })
   });
 });
