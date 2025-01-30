@@ -129,4 +129,18 @@ describe("Character", () => {
       expect(char.level).to.be.equal(3);
     })
   });
+
+  describe("Characters have an attack Max Range", () => {
+    it("Melee fighters have a range of 2 meters", () => {
+      const char = new Character();
+      expect(char.attackRange).to.be.equal(2);
+    })
+
+    it("Ranged fighters have a range of 20 meters", () => {
+      const char = new Character("ranged");
+      expect(char.attackRange).to.be.equal(20);
+    })
+
+    it("Characters must be in range to deal damage to a target");
+  })
 });
